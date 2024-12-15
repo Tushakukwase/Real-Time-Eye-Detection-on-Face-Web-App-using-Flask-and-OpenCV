@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Detection App</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        #videoContainer {
+            max-width: 100%;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 30px;
+        }
+
+        #video {
+            border-radius: 10px;
+            max-width: 100%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        .btn.stop {
+            background-color: #f44336;
+        }
+
+        .btn.stop:hover {
+            background-color: #e53935;
+        }
+
+        #statusMessage {
+            margin-top: 15px;
+            color: #6c757d;
+            font-size: 18px;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            #video {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Eye Detection App</h1>
+        <div id="videoContainer">
+            <img id="video" src="" alt="Video feed" />
+        </div>
+        <div class="controls">
+            <button id="startBtn" class="btn">Start Detection</button>
+            <button id="stopBtn" class="btn stop">Stop Detection</button>
+        </div>
+        <div id="statusMessage">Click 'Start Detection' to begin</div>
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const statusMessage = document.getElementById('statusMessage');
+
+        // Start webcam (start video feed from Flask)
+        function startWebcam() {
+            video.src = "/video_feed";  // Update the image src to the video feed URL
+            statusMessage.textContent = 'Face detection started';
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+        }
+
+        // Stop webcam
+        function stopWebcam() {
+            video.src = "";  // Remove the video source to stop streaming
+            statusMessage.textContent = 'Webcam stopped';
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+        }
+
+        // Event listeners
+        startBtn.addEventListener('click', startWebcam);
+        stopBtn.addEventListener('click', stopWebcam);
+
+        // Initial state
+        stopBtn.disabled = true;
+    </script>
+</body>
+</html>
